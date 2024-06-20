@@ -87,10 +87,10 @@ ip netns exec router ip link set dev eth2-br2 up
 ip netns exec router sysctl net.ipv4.ip_forward=1
 
 #
-ip netns exec node1 route add default via 172.0.0.1
-ip netns exec node2 route add default via 172.0.0.1
-ip netns exec node3 route add default via 10.10.0.1
-ip netns exec node4 route add default via 10.10.0.1
+ip netns exec node1 ip route add default via 172.0.0.1
+ip netns exec node2 ip route add default via 172.0.0.1
+ip netns exec node3 ip route add default via 10.10.0.1
+ip netns exec node4 ip route add default via 10.10.0.1
 
 
 
