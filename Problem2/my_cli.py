@@ -109,44 +109,34 @@ def delete_container(container_id):
     
     # Remove root folder
     os.system(f'rm -r ./root/{container_id}')
+        
+def limit_memory(mem_limit):
+    if mem_limit:
+        cgroup_dir = f'/sys/fs/cgroup/memory/my_container'
+        os.makedirs(cgroup_dir, exist_ok=True)
+        with open(os.path.join(cgroup_dir, 'memory.limit_in_bytes'), 'w') as f:
+            f.write(str(mem_limit * 1024 * 1024))  # Convert MB to bytes
+        with open(os.path.join(cgroup_dir, 'tasks'), 'w') as f:
+            f.write(str(os.getpid()))
     
     
 if __name__ == '__main__':
-    usage_str = 'Usage: python my-cli.py (create <hostname>|list|connect <container_id>|del <container id>)'
-    if len(sys.argv) < 2:
-        print(usage_str)
-        sys.exit(1)
-    else:
+        
         command = sys.argv[1]
+        mem_limit = int(sys.argv[-1]) if len(sys.argv) > 2 else None
+        
         if command == 'create':
-            if len(sys.argv) < 3:
-                print('Usage: python my-cli.py create <hostname>')
-                sys.exit(1)
-            else:
-                hostname = sys.argv[2]
-                create_container(hostname)
+            hostname = sys.argv[2]
+            create_container(hostname)
+            if mem_limit is not None:
+               limit_memory(mem_limit)
                 
         elif command == 'list':
-            if len(sys.argv) > 3:
-                print('Usage: python my-cli.py list')
-                sys.exit(1)
-            else:
-                list_containers()
+             list_containers()
                 
         elif command == 'connect':
-            if len(sys.argv) < 3:
-                print('Usage: python my-cli.py connect <container id>')
-                sys.exit(1)
-            else:
-                container_id = sys.argv[2]
-                connect_to_container(container_id)
+             container_id = sys.argv[2]
+             connect_to_container(container_id)
                 
-        elif command == 'del':
-            if len(sys.argv) < 3:
-                print('Usage: python my-cli.py del <container id>')
-                sys.exit(1)
-            else:
-                container_id = sys.argv[2]
-                delete_container(container_id)
-        else:
-            print(usage_str)
+        else command == 'del':
+             container_id = sys.argv[2]
