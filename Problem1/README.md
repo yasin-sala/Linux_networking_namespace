@@ -13,6 +13,7 @@ and then for checking, we write this code in our CLI:
 ```bash
 ./Pinging_nodes node1 node2
 ```
+node1 and node2 are the names of namespace, it can be also node3, node4 and router insted of these 2 name.
 
 ## In the second part we delete the router and get bwlow topology.
 ![Image](img/Fig2.png)
