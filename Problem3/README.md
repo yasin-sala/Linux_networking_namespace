@@ -30,4 +30,5 @@ Now the httpserver has started, we open another terminal and run clinent.py
 python3 client.py
 ```
 and we get this output:
+
 ![Image](img/Fig.png)
